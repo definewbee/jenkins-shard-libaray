@@ -1,0 +1,47 @@
+environment {
+    DISABLE_AUTH = 'true'
+}
+
+properties([
+    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '20')),
+    parameters([
+        string(name: 'system_version', defaultValue: 'centos7', description: 'system version [centos7 centos8]'),
+        choice(name: 'isTest', choices: ['true', 'false'], description: '是否测试模式'),
+        choice(name: 'build', choices: ['true', 'false'], description: '是否构建?'),
+        choice(name: 'package', choices: ['true', 'false'], description: '是否打包?'),
+        choice(name: 'deploy', choices: ['true', 'false'], description: '是否部署?'),
+        choice(name: 'DEPLOY_TO', choices: ['devops', 'spot', 'spotTest'], description: '部署NS?'),
+    ]),
+])
+
+stage("Checkout") {
+    checkout scm
+}
+
+stage('Compile') {
+    def startOutput = pipeShell.debug('echo "start Building..."').trim()
+    println(startOutput)
+
+    pipeBuild.maven("mvn -version")
+
+    def finishOutput = pipeShell.debug('echo "finish Builded"').trim()
+    println(finishOutput)
+}
+
+stage("Image") {
+    echo "Build docker image"
+}
+
+stage('Deploy') {
+    echo "Deploy to environment"
+
+    pipeBuild.kubectlCMD("kubectl version")
+}
+
+stage('Finish') {
+    echo "Clean cache"
+
+    echo "Send message..."
+
+    echo "etc...."
+}

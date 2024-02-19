@@ -1,0 +1,39 @@
+environment {
+    DISABLE_AUTH = 'true'
+}
+
+properties([
+    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '20')),
+    parameters([
+        choice(name: "environment", choices: ['dev', 'test', 'staging', 'prod'], description: "部署环境")
+    ]),
+])
+
+stage('Checkout') {
+    checkout scm
+}
+
+stage('Build and Test') {
+    pipeBuild.mavenBuildAndTest()
+}
+
+stage('Build Docker Image') {
+    pipeBuild.buildDockerImage("docker build -t spring-start-monitor:latest .")
+}
+
+stage('Push to ECR') {
+    steps {
+        script {
+            withAWS(credentials: 'aws-credentials', region: 'ap-southeast-1') {
+                def ecrLoginCommand = ecrLogin(registryIds: ['746744850355'])
+                sh "${ecrLoginCommand}"
+                sh "docker tag spring-start-monitor:latest 746744850355.dkr.ecr.ap-southeast-1.amazonaws.com/spring-start-monitor:latest"
+                sh "docker push 746744850355.dkr.ecr.ap-southeast-1.amazonaws.com/spring-start-monitor:latest"
+            }
+        }
+    }
+}
+
+stage('Deploy to EKS') {
+    sh 'echo hello'
+}

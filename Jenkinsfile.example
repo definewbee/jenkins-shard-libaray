@@ -1,0 +1,4 @@
+// 配置页面开启隐式加载后，可以直接使用共享库
+// 定义library，命名为_
+@Library('global-shared-library@main') _
+pipeline()
