@@ -17,6 +17,10 @@ def buildDockerImage(String cmd) {
     }
 }
 
+def pushDockerImageToECR(String cmd) {
+
+}
+
 
 def deploy(String cmd = "") {
     container("helm") {
