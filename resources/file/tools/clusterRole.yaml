@@ -76,15 +76,21 @@ rules:
       - update
       - patch
       - delete
-  # - apiGroups:
-  #     - monitoring.mexc.com
-  #   resources:
-  #     - silences
-  #   verbs:
-  #     - get
-  #     - list
-  #     - watch
-  #     - create
-  #     - update
-  #     - patch
-  #     - delete
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - list
+# - apiGroups:
+#     - monitoring.mexc.com
+#   resources:
+#     - silences
+#   verbs:
+#     - get
+#     - list
+#     - watch
+#     - create
+#     - update
+#     - patch
+#     - delete
