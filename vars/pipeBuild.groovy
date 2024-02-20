@@ -17,7 +17,7 @@ def buildDockerImage(String cmd) {
     }
 }
 
-def pushDockerImageToECR(String cmd) {
+def pushDockerImageToECR(String cmd = "") {
     container("dind") {
         script {
             withAWS(credentials: 'aws-credentials', region: 'ap-southeast-1') {
