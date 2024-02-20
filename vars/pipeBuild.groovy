@@ -1,4 +1,4 @@
-def mavenBuildAndTest(String cmd = "mvn clean package -B -U -DskipTests") {
+def mavenBuildAndTest(String cmd = "mvn clean package -DskipTests") {
     container("maven") {
         sh "${cmd}"
     }

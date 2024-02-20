@@ -25,8 +25,6 @@ def call(String name = "Java") {
         podTemplate.maven(baseImage) {
             ws("$workspace") {
                 steps.cleanWs notFailBuild: true
-
-                // load "file/demo1/Jenkinsfile"
                 writeFile file: jenkinsFilename, text: jenkinsFile
                 load(jenkinsFilename)
             }
