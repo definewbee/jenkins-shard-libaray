@@ -21,6 +21,7 @@ class PodTemplate {
         String imageTag = JNLP_IMAGE
         if (steps.env.JKSJnlpImage != null) {
             imageTag = "${steps.env.JKSJnlpImage}"
+            this.echo "Jenkins JNLP image: ${imageTag}";
         }
         return imageTag
     }
@@ -36,36 +37,36 @@ class PodTemplate {
             label: baseImage,
             idleMinutes: 5,
             containers: [
-                    // maven image
-                    steps.containerTemplate(
-                            name: 'maven', image: baseImage, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
-                    ),
-                    // kubectl cli
-                    steps.containerTemplate(
-                            name: 'kubectl', image: kubeImage, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
-                    ),
+                // maven image
+                steps.containerTemplate(
+                    name: 'maven', image: baseImage, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
+                ),
+                // kubectl cli
+                steps.containerTemplate(
+                    name: 'kubectl', image: kubeImage, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
+                ),
 
-                    // jnlp
-                    steps.containerTemplate(
-                            name: 'jnlp', image: jnlpImage, args: '${computer.jnlpmac} ${computer.name}', alwaysPullImage: true,
-                    ),
+                // jnlp
+                steps.containerTemplate(
+                    name: 'jnlp', image: jnlpImage, args: '${computer.jnlpmac} ${computer.name}', alwaysPullImage: true,
+                ),
 
-                    steps.containerTemplate(
-                            name: 'dind', image: dind, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
-                    ),
+                steps.containerTemplate(
+                    name: 'dind', image: dind, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
+                ),
             ],
             showRawYaml: true,
             volumes: [
-                    // 用于存储临时制品
-                    steps.emptyDirVolume(mountPath: TmpShareDirectory, memory: false),
-                    // 用于缓存
-                    // steps.persistentVolumeClaim(
-                    //         claimName: MavenRepositoryPVCName, mountPath: '/maven/repository'
-                    // ),
-                    // 配置jenkins默认settings.xml
-                    // steps.secretVolume(
-                    //         secretName: MavenSettingSecretName, mountPath: '/root/.m2'
-                    // ),
+                // 用于存储临时制品
+                steps.emptyDirVolume(mountPath: TmpShareDirectory, memory: false),
+                // 用于缓存
+                // steps.persistentVolumeClaim(
+                //         claimName: MavenRepositoryPVCName, mountPath: '/maven/repository'
+                // ),
+                // 配置jenkins默认settings.xml
+                // steps.secretVolume(
+                //         secretName: MavenSettingSecretName, mountPath: '/root/.m2'
+                // ),
             ],
             imagePullSecrets: [
                 "harbor-devops"
