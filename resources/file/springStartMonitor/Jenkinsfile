@@ -26,5 +26,5 @@ stage('Push to ECR') {
 }
 
 stage('Deploy to EKS') {
-    sh 'echo hello'
+    pipeBuild.deploy("")
 }
