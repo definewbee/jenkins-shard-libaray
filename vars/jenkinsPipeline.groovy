@@ -18,7 +18,7 @@ def call(String name = "Java") {
 
     // 临时数据
     // 应该是来源于配置数据
-    String baseImage = "maven:3.9"
+    String baseImage = "maven:3.8.5"
     Boolean enablePipeline = true
 
     if (enablePipeline) {
