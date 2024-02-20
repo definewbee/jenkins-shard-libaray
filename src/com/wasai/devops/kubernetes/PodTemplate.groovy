@@ -29,8 +29,8 @@ class PodTemplate {
     public void maven(String baseImage, Closure body) {
         String jnlpImage = getJnlpImage()
         String kubeImage = "definewbie/jenkins:v0.3"
-        String awsImage = "amazon/aws-cli:latest"
         String dind = "docker:dind"
+        String helmImage = "alpine/k8s:1.26.14"
 
         steps.podTemplate(
             name: 'jks-slave-maven',
@@ -57,10 +57,11 @@ class PodTemplate {
                 ),
 
                 steps.containerTemplate(
-                    name: 'aws-cli', image: awsImage, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
+                    name: 'helm', image: helmImage, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
                 )
             ],
             showRawYaml: true,
+            serviceAccount: 'kubectl-proxy',
             volumes: [
                 // 用于存储临时制品
                 steps.emptyDirVolume(mountPath: TmpShareDirectory, memory: false),
