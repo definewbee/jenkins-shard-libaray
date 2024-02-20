@@ -1,0 +1,90 @@
+# 不区分namespace
+# https://kuboard.cn/learning/k8s-advanced/sec/rbac/example.html#%E4%BE%8B%E5%AD%90
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubectl-proxy
+  labels:
+    release: kubectl-proxy
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - events
+      - configmaps
+      - configmaps/finalizers
+      - secrets
+      - secrets/finalizers
+      - services
+      - services/finalizers
+      - pods
+      - pods/finalizers
+      - pods/log
+      - endpoints
+      - namespaces
+      - namespaces/status
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - deployments/finalizers
+      - statefulsets
+      - statefulsets/finalizers
+      - deployments/scale
+      - statefulsets/scale
+      - replicasets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses
+      - ingresses/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  # - apiGroups:
+  #     - monitoring.mexc.com
+  #   resources:
+  #     - silences
+  #   verbs:
+  #     - get
+  #     - list
+  #     - watch
+  #     - create
+  #     - update
+  #     - patch
+  #     - delete
