@@ -4,11 +4,12 @@ def call(String name = "Java") {
     echo "Hello, project build Language: ${JOB_NAME}"
 
     String projectName = env.JOB_NAME.split('/')[0]
-    echo "${projectName}"
-    steps.echo "${projectName}"
-    this.echo "${projectName}"
+    echo "----------> ${projectName}"
 
     def jenkinsFilename = "file/${projectName}/Jenkinsfile"
+
+    echo "----------> ${jenkinsFilename}"
+
     def jenkinsFile = libraryResource(jenkinsFilename)
 
     echo("execute java project")
