@@ -18,7 +18,16 @@ def buildDockerImage(String cmd) {
 }
 
 def pushDockerImageToECR(String cmd) {
-
+    container("dind") {
+        script {
+            withAWS(credentials: 'aws-credentials', region: 'ap-southeast-1') {
+                def ecrLoginCommand = ecrLogin(registryIds: ['746744850355'])
+                sh "${ecrLoginCommand}"
+                sh "docker tag spring-start-monitor:latest 746744850355.dkr.ecr.ap-southeast-1.amazonaws.com/spring-start-monitor:latest"
+                sh "docker push 746744850355.dkr.ecr.ap-southeast-1.amazonaws.com/spring-start-monitor:latest"
+            }
+        }
+    }
 }
 
 
