@@ -29,6 +29,7 @@ class PodTemplate {
     public void maven(String baseImage, Closure body) {
         String jnlpImage = getJnlpImage()
         String kubeImage = "definewbie/jenkins:v0.3"
+        String awsImage = "amazon/aws-cli:latest"
         String dind = "docker:dind"
 
         steps.podTemplate(
@@ -54,6 +55,10 @@ class PodTemplate {
                 steps.containerTemplate(
                     name: 'dind', image: dind, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
                 ),
+
+                steps.containerTemplate(
+                    name: 'aws-cli', image: awsImage, command: 'sleep', args: "99999", ttyEnabled: true, alwaysPullImage: true,
+                )
             ],
             showRawYaml: true,
             volumes: [
