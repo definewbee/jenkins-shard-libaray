@@ -4,14 +4,16 @@ def call(String name = "Java") {
     echo "Hello, project build Language: ${JOB_NAME}"
 
     String projectName = env.JOB_NAME.split('/')[0]
-//    echo "${projectName}"
-//    steps.echo "${projectName}"
-    this.echo "${projectName}"
+    this.echo " project name is ------> ${projectName}"
 
     def jenkinsFilename = "file/${projectName}/Jenkinsfile"
+
+    this.echo " jenkins file name is ------> ${jenkinsFilename}"
+
     def jenkinsFile = libraryResource(jenkinsFilename)
 
-//    echo("execute java project")
+    this.echo " jenkins file is ------> ${jenkinsFile}"
+
     PodTemplate podTemplate = new PodTemplate(this)
 
     // 临时数据
