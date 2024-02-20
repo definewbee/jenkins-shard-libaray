@@ -29,7 +29,7 @@ class PodTemplate {
     public void maven(String baseImage, Closure body) {
         String jnlpImage = getJnlpImage()
         String kubeImage = "definewbie/jenkins:v0.3"
-        String dind = "docker:dind\n"
+        String dind = "docker:dind"
 
         steps.podTemplate(
             name: 'jks-slave-maven',
