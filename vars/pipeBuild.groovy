@@ -32,7 +32,7 @@ def pushDockerImageToECR(String cmd = "") {
 
 
 def deploy(String cmd = "") {
-    container("dind") {
+    container("kubectl") {
         script {
             withKubeConfig([credentialsId: 'kubeconfig-credentials', serverUrl: 'https://02C9CAE1530CB6894D2023CE9F6E3969.gr7.ap-southeast-1.eks.amazonaws.com']) {
                 sh 'kubectl apply -f kubernetes/deployment.yaml'
