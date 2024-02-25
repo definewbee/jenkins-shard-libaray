@@ -4,15 +4,15 @@ def call(String name = "Java") {
     echo "Hello, project build Language: ${JOB_NAME}"
 
     String projectName = env.JOB_NAME.split('/')[0]
-    this.echo " project name is ------> ${projectName}"
+    //this.echo " project name is ------> ${projectName}"
 
     def jenkinsFilename = "file/${projectName}/Jenkinsfile"
 
-    this.echo " jenkins file name is ------> ${jenkinsFilename}"
+    //this.echo " jenkins file name is ------> ${jenkinsFilename}"
 
     def jenkinsFile = libraryResource(jenkinsFilename)
 
-    this.echo " jenkins file is ------> ${jenkinsFile}"
+    //this.echo " jenkins file is ------> ${jenkinsFile}"
 
     PodTemplate podTemplate = new PodTemplate(this)
 
